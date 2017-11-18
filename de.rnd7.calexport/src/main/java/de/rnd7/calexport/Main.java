@@ -9,6 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -58,7 +59,7 @@ public class Main {
 	}
 
 	private static List<Event> load(final String surl) throws Exception {
-		try (InputStream inputStream = ICSDownloader.download(surl)) {
+		try (InputStream inputStream = ICSDownloader.download(surl, HttpClients::createDefault)) {
 			return EventFactory.parseEvents(inputStream);
 		}
 	}
