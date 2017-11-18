@@ -1,6 +1,6 @@
 body {
-  font-family: Helvetica, Arial, Sans-Serif;
-  font-size: 8pt;
+  font-family: Calibri, Arial, Sans-Serif;
+  font-size: 10pt;
 }
 
 table.image, tr.image, td.image {
@@ -35,9 +35,25 @@ td.leftBorder {
 
 thead {
     border-top: 1px solid #000;
-    background-color: #E6E6E6;
     font-weight: bold;
-    text-transform: uppercase;
+    font-variant: small-caps;
+    font-size: 12pt;
+}
+
+.date {
+    color: #234060;
+}
+
+.moessingen {
+    color: #234060;
+}
+
+.bodelshausen {
+    color: #00B04F;
+}
+
+.dusslingen {
+    color: #C00200;
 }
 
 td { 
@@ -92,6 +108,12 @@ td.eventColumn {
 }
 
 .title {
+    font-weight: bold;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.titleDate {
     font-weight: bold;
     font-size: 120%;
 }

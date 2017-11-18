@@ -12,6 +12,7 @@ import static j2html.TagCreator.tr;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -30,7 +31,7 @@ public abstract class ColumnGenerator {
 	private static final double MAX_EM_PER_ROE = 4.5;
 	protected static final DateTimeFormatter MONTH_FORMATTER = DateTimeFormatter.ofPattern("MMMM yyyy");
 	protected static final DateTimeFormatter DAY_FORMATTER = DateTimeFormatter.ofPattern("dd. EE");
-	protected static final DateTimeFormatter HOUR_FORMATTER = DateTimeFormatter.ofPattern("HH:mm");
+	protected static final DateTimeFormatter HOUR_FORMATTER = DateTimeFormatter.ofPattern("H:mm");
 
 	private final String title;
 
@@ -176,8 +177,8 @@ public abstract class ColumnGenerator {
 
 	private ContainerTag addEventsWithStartTime(final ContainerTag first, final LocalDate date) {
 		return first.with(this.stream(this.byDay, date)
+				.sorted(Comparator.comparing(Event::getStart))
 				.map(this::convertToString)
-				.sorted()
 				.map(MarkdownUtil::convertMarkdown)
 				.map(TagCreator::div)
 				.map(this::addNormalEventClass)

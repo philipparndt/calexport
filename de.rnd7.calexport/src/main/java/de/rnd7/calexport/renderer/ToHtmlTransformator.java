@@ -34,10 +34,10 @@ public class ToHtmlTransformator {
 
 	public static List<ColumnGenerator> setup(final List<Event> main, final List<Event> moessingen, final List<Event> bodelshausen, final List<Event> dusslingen, final int year, final Month month) {
 		return ImmutableList.of(
-				new ColumnGeneratorDay(main, year, month),
-				new ColumnGeneratorLocation(moessingen, "Mössingen\nChristuskirche", year, month),
-				new ColumnGeneratorLocation(bodelshausen, "Bodelshausen\nFriedenskirche", year, month),
-				new ColumnGeneratorLocation(dusslingen, "Dusslingen\nFriedenskirche", year, month));
+				new ColumnGeneratorDay(main, year, month, ".date"),
+				new ColumnGeneratorLocation(moessingen, "Mössingen\nChristuskirche", year, month, ".moessingen"),
+				new ColumnGeneratorLocation(bodelshausen, "Bodelshausen\nFriedenskirche", year, month, ".bodelshausen"),
+				new ColumnGeneratorLocation(dusslingen, "Dusslingen\nFriedenskirche", year, month, ".dusslingen"));
 
 	}
 
@@ -67,6 +67,9 @@ public class ToHtmlTransformator {
 				tbody,
 				createFooter(generators));
 
+
+		final ContainerTag titleDate = div(ColumnGenerator.MONTH_FORMATTER.format(LocalDate.of(year, month.getValue(), 1))).withClass("titleDate");
+
 		final ContainerTag title = div("Evangelisch-methodistische Kirche, Bezirk Mössingen").withClass("title");
 
 		final ContainerTag html = html(
@@ -75,7 +78,7 @@ public class ToHtmlTransformator {
 						style(ToHtmlTransformator.styles()),
 						title(String.format("%04d-%02d (Dienstplan)", year, month.getValue()))
 						),
-				body().with(title, table));
+				body().with(titleDate, title, table));
 
 
 		html.attr("xmlns", "http://www.w3.org/1999/xhtml");

@@ -12,13 +12,16 @@ import de.rnd7.calexport.Event;
 import j2html.tags.ContainerTag;
 
 public class ColumnGeneratorDay extends ColumnGenerator {
-	public ColumnGeneratorDay(final List<Event> events, final int year, final Month month) {
+	private final String classes;
+
+	public ColumnGeneratorDay(final List<Event> events, final int year, final Month month, final String classes) {
 		super(events, toMonthName(year, month), year, month);
+		this.classes = classes;
 	}
 
 	@Override
 	public ContainerTag createHeader() {
-		return this.colspanHeadFoot(td(attrs(".dayColumn .leftBorder"), new DomContentWithNewLineReplacement(this.getTitle())));
+		return this.colspanHeadFoot(td(attrs(".dayColumn .leftBorder " + this.classes), new DomContentWithNewLineReplacement(this.getTitle())));
 	}
 
 	@Override
