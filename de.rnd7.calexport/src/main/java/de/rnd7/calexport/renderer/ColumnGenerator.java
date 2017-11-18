@@ -27,7 +27,9 @@ import j2html.tags.ContainerTag;
 
 public abstract class ColumnGenerator {
 
-	private static final int MIN_EM_PER_ROW = 2;
+	private static final String IMAGE = ".image";
+
+	private static final double MIN_EM_PER_ROW = 2;
 	private static final double MAX_EM_PER_ROE = 4.5;
 	protected static final DateTimeFormatter MONTH_FORMATTER = DateTimeFormatter.ofPattern("MMMM yyyy");
 	protected static final DateTimeFormatter DAY_FORMATTER = DateTimeFormatter.ofPattern("dd. EE");
@@ -136,7 +138,7 @@ public abstract class ColumnGenerator {
 					final int remainingInMonthFrom = event.remainingInMonthFrom(this.year, this.month, day);
 					final ContainerTag multiDayParagraph = p(span(convertMarkdown(event.getTitle())));
 					final int widthEm = StringExtend.getWidthEm(event.getTitle());
-					final int em =  Math.max(remainingInMonthFrom * MIN_EM_PER_ROW, Math.min(Double.valueOf(remainingInMonthFrom * MAX_EM_PER_ROE).intValue(), widthEm));
+					final int em = (int) Math.max(remainingInMonthFrom * MIN_EM_PER_ROW, Math.min(remainingInMonthFrom * MAX_EM_PER_ROE, widthEm));
 
 					multiDayParagraph.attr("style", String.format("height: %dem;", em));
 
@@ -159,11 +161,11 @@ public abstract class ColumnGenerator {
 
 		if (eventsOfDay.anyMatch(Event::isAbendmahl)) {
 
-			final ContainerTag td = td(attrs(".image"));
+			final ContainerTag td = td(attrs(IMAGE));
 			td.attr("width", "100%");
 			target = td;
 
-			final ContainerTag table = table(attrs(".image")).with(tr(attrs(".image")).with(td).with(td(attrs(".image")).with(ToHtmlTransformator.ABENDMAHL)));
+			final ContainerTag table = table(attrs(IMAGE)).with(tr(attrs(IMAGE)).with(td).with(td(attrs(IMAGE)).with(ToHtmlTransformator.ABENDMAHL)));
 			first.with(table);
 		}
 
