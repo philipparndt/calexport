@@ -12,7 +12,7 @@ public class StringExtendTest {
 
 		assertTrue(StringExtend.getWidth("Testeintrag für eine Woche") > 90);
 		assertTrue(StringExtend.getWidth("Test") > 12);
-		assertTrue(StringExtend.getWidth("Test") < 30);
+		assertTrue(StringExtend.getWidth("Test") < 25);
 
 		assertTrue(StringExtend.getWidthEm("Testeintrag für eine Woche") > 10);
 		assertTrue(StringExtend.getWidthEm("Test") > 1);
