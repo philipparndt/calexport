@@ -22,7 +22,7 @@ public class Main {
 	public static void main(final String[] args) {
 		try {
 			if (args.length != 4) {
-				System.out.println("Expected 4 arguments (main, moessingen, bodelshausen, dusslingen)");
+				LOGGER.error("Expected 4 arguments (main, moessingen, bodelshausen, dusslingen)");
 
 				return;
 			}

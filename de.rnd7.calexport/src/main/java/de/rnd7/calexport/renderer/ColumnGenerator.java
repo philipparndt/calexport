@@ -135,7 +135,7 @@ public abstract class ColumnGenerator {
 					final int remainingInMonthFrom = event.remainingInMonthFrom(this.year, this.month, day);
 					final ContainerTag multiDayParagraph = p(span(convertMarkdown(event.getTitle())));
 					final int widthEm = StringExtend.getWidthEm(event.getTitle());
-					final int em =  Math.max(remainingInMonthFrom * MIN_EM_PER_ROW, Math.min(new Double(remainingInMonthFrom * MAX_EM_PER_ROE).intValue(), widthEm));
+					final int em =  Math.max(remainingInMonthFrom * MIN_EM_PER_ROW, Math.min(Double.valueOf(remainingInMonthFrom * MAX_EM_PER_ROE).intValue(), widthEm));
 
 					multiDayParagraph.attr("style", String.format("height: %dem;", em));
 
