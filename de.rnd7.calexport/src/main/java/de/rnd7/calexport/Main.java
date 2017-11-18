@@ -9,11 +9,15 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import de.rnd7.calexport.renderer.ColumnGenerator;
 import de.rnd7.calexport.renderer.ToHtmlTransformator;
 
 public class Main {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
 	public static void main(final String[] args) {
 		try {
@@ -37,7 +41,7 @@ public class Main {
 			}
 		}
 		catch (final Exception e) {
-			e.printStackTrace();
+			LOGGER.error(e.getMessage(), e);
 		}
 	}
 
@@ -48,11 +52,10 @@ public class Main {
 		final String html = ToHtmlTransformator.toHtml(setup);
 
 		final File file = new File(String.format("%s.html", DateTimeFormatter.ofPattern("yyyy-MM").format(exportMonth)));
-		System.out.println(file.getAbsolutePath());
+		LOGGER.info("Writing {}", file.getAbsolutePath());
 
 		FileUtils.writeStringToFile(file, html, Charset.forName("utf8"));
 	}
-
 
 	private static List<Event> load(final String surl) throws Exception {
 		try (InputStream inputStream = ICSDownloader.download(surl)) {

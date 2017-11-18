@@ -2,9 +2,14 @@ package de.rnd7.calexport.pdf;
 
 import java.io.OutputStream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.openhtmltopdf.pdfboxout.PdfRendererBuilder;
 
 public class HtmlToPDFConverter {
+
+	private static final Logger LOGGER = LoggerFactory.getLogger(HtmlToPDFConverter.class);
 
 	private HtmlToPDFConverter() {
 	}
@@ -19,8 +24,7 @@ public class HtmlToPDFConverter {
 			builder.run();
 
 		} catch (final Exception e) {
-			e.printStackTrace();
-			// LOG exception
+			LOGGER.error(e.getMessage(), e);
 		}
 	}
 }
