@@ -68,4 +68,9 @@ public class EventParserTest {
 		assertEquals("2018-01-01T21:00:00", DateTimeFormatter.ISO_LOCAL_DATE_TIME.format(event.getEnd()));
 		assertFalse(event.isWholeDay());
 	}
+
+	@Test
+	public void test_invalid_event() throws Exception {
+		assertFalse(EventParser.parse("Testtitle").isPresent());
+	}
 }
