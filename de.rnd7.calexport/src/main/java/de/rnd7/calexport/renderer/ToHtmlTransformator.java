@@ -96,7 +96,7 @@ public class ToHtmlTransformator {
 			return "data:image/gif;base64," + new String(Base64.getEncoder().encode(IOUtils.toByteArray(in)));
 		}
 		catch (final IOException e) {
-			throw new RuntimeException("Error loading image " + imageName, e);
+			throw new RendererRuntimeException("Error loading image " + imageName, e);
 		}
 	}
 

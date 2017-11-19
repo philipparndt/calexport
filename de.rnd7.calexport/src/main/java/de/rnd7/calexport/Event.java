@@ -154,10 +154,10 @@ public class Event {
 			return 0;
 		}
 
-		final LocalDate day = LocalDate.of(year, month.getValue(), dayOfMonth);
-		final LocalDate end = this.getTrimmedEnd(this.getEndDayExclusive(), year, month);
+		final LocalDate startDay = LocalDate.of(year, month.getValue(), dayOfMonth);
+		final LocalDate endDay = this.getTrimmedEnd(this.getEndDayExclusive(), year, month);
 
-		return (int) Duration.between(day.atStartOfDay(), end.atStartOfDay()).toDays();
+		return (int) Duration.between(startDay.atStartOfDay(), endDay.atStartOfDay()).toDays();
 	}
 
 	private LocalDate getTrimmedStart(final LocalDate startDay, final int year, final Month month) {
