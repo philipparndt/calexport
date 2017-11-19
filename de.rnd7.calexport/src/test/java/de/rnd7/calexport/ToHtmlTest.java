@@ -2,6 +2,7 @@ package de.rnd7.calexport;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
@@ -32,7 +33,7 @@ public class ToHtmlTest {
 		}
 	}
 
-	private List<Event> read(final String name) throws Exception {
+	private List<Event> read(final String name) throws IOException {
 		try(InputStream in = ToHtmlTest.class.getResourceAsStream(name)) {
 			return EventFactory.fromFlatFile(in);
 		}

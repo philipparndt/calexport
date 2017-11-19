@@ -1,5 +1,6 @@
 package de.rnd7.calexport;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -44,7 +45,7 @@ public final class EventFactory {
 				.collect(Collectors.toList());
 	}
 
-	public static List<Event> fromFlatFile(final InputStream in) throws Exception {
+	public static List<Event> fromFlatFile(final InputStream in) throws IOException {
 		return IOUtils.readLines(in, "utf-8").stream()
 				.map(String::trim)
 				.filter(s -> !s.isEmpty())
@@ -56,7 +57,7 @@ public final class EventFactory {
 	private static Event toEvent(final String line) {
 		final Optional<Event> parse = EventParser.parse(line);
 		if (!parse.isPresent()) {
-			LOGGER.warn("cannot parse: " + line);
+			LOGGER.warn("cannot parse: {}", line);
 			return null;
 		}
 		else {
