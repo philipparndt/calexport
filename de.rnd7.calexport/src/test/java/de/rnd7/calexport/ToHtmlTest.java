@@ -2,6 +2,7 @@ package de.rnd7.calexport;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.time.Month;
@@ -17,8 +18,8 @@ import de.rnd7.calexport.renderer.ToHtmlTransformator;
 public class ToHtmlTest {
 	@Test
 	public void test_days() throws Exception {
-		final List<Event> main = new TestDataMain().create();
-		final List<Event> moessingen = new TestDataMoessingen().create();
+		final List<Event> main = this.read("main.txt");
+		final List<Event> moessingen = this.read("moessingen.txt");
 		final List<Event> bodelshausen = new TestDataBodelshausen().create();
 		final List<Event> dusslingen = new TestDataDusslingen().create();
 
@@ -28,6 +29,12 @@ public class ToHtmlTest {
 
 		try(OutputStream out = new FileOutputStream(new File("test.pdf"))) {
 			HtmlToPDFConverter.exportToPdfBox(html, out);
+		}
+	}
+
+	private List<Event> read(final String name) throws Exception {
+		try(InputStream in = ToHtmlTest.class.getResourceAsStream(name)) {
+			return EventFactory.fromFlatFile(in);
 		}
 	}
 }

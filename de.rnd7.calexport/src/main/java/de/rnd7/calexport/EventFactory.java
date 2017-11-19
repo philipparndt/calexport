@@ -4,10 +4,16 @@ import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import de.rnd7.calexport.parser.EventParser;
 import net.fortuna.ical4j.data.CalendarBuilder;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Component;
@@ -17,11 +23,13 @@ import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.DateProperty;
 
 public final class EventFactory {
+	private static final Logger LOGGER = LoggerFactory.getLogger(EventFactory.class);
+
 	private EventFactory() {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static List<Event> parseEvents(final InputStream in) throws Exception {
+	public static List<Event> fromICal(final InputStream in) throws Exception {
 		final CalendarBuilder builder = new CalendarBuilder();
 		final Calendar calendar = builder.build(in);
 
@@ -34,6 +42,26 @@ public final class EventFactory {
 				.filter(EventFactory::isEvent)
 				.map(EventFactory::parse)
 				.collect(Collectors.toList());
+	}
+
+	public static List<Event> fromFlatFile(final InputStream in) throws Exception {
+		return IOUtils.readLines(in, "utf-8").stream()
+				.map(String::trim)
+				.filter(s -> !s.isEmpty())
+				.map(EventFactory::toEvent)
+				.filter(Objects::nonNull)
+				.collect(Collectors.toList());
+	}
+
+	private static Event toEvent(final String line) {
+		final Optional<Event> parse = EventParser.parse(line);
+		if (!parse.isPresent()) {
+			LOGGER.warn("cannot parse: " + line);
+			return null;
+		}
+		else {
+			return parse.get();
+		}
 	}
 
 	private static boolean isEvent(final Component component) {

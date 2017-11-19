@@ -60,7 +60,7 @@ public class Main {
 
 	private static List<Event> load(final String surl) throws Exception {
 		try (InputStream inputStream = ICSDownloader.download(surl, HttpClients::createDefault)) {
-			return EventFactory.parseEvents(inputStream);
+			return EventFactory.fromICal(inputStream);
 		}
 	}
 

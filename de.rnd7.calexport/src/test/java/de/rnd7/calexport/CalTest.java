@@ -13,7 +13,7 @@ public class CalTest {
 	@Test
 	public void testSimple() throws Exception {
 		try (final InputStream in = CalTest.class.getResourceAsStream("simple.ics")) {
-			final List<Event> events = EventFactory.parseEvents(in);
+			final List<Event> events = EventFactory.fromICal(in);
 			assertEquals(2, events.size());
 
 			final Event event1 = events.get(0);
