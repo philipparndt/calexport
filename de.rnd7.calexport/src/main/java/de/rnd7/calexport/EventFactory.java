@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 
 import de.rnd7.calexport.parser.EventParser;
 import net.fortuna.ical4j.data.CalendarBuilder;
+import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Component;
 import net.fortuna.ical4j.model.Property;
@@ -30,19 +31,24 @@ public final class EventFactory {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static List<Event> fromICal(final InputStream in) throws Exception {
+	public static List<Event> fromICal(final InputStream in) throws EventParseException {
 		final CalendarBuilder builder = new CalendarBuilder();
-		final Calendar calendar = builder.build(in);
+		try {
+			final Calendar calendar = builder.build(in);
 
-		final Stream<Component> components = calendar.getComponents()
-				.stream()
-				.filter(Component.class::isInstance)
-				.map(Component.class::cast);
+			final Stream<Component> components = calendar.getComponents()
+					.stream()
+					.filter(Component.class::isInstance)
+					.map(Component.class::cast);
 
-		return components
-				.filter(EventFactory::isEvent)
-				.map(EventFactory::parse)
-				.collect(Collectors.toList());
+			return components
+					.filter(EventFactory::isEvent)
+					.map(EventFactory::parse)
+					.collect(Collectors.toList());
+		}
+		catch (ParserException | IOException e) {
+			throw new EventParseException(e);
+		}
 	}
 
 	public static List<Event> fromFlatFile(final InputStream in) throws IOException {

@@ -58,9 +58,12 @@ public class Main {
 		FileUtils.writeStringToFile(file, html, Charset.forName("utf8"));
 	}
 
-	private static List<Event> load(final String surl) throws Exception {
+	private static List<Event> load(final String surl) throws EventParseException {
 		try (InputStream inputStream = ICSDownloader.download(surl, HttpClients::createDefault)) {
 			return EventFactory.fromICal(inputStream);
+		}
+		catch (final IOException e) {
+			throw new EventParseException(e);
 		}
 	}
 
