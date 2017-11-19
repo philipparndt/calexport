@@ -30,6 +30,23 @@ public class EventParserTest {
 	}
 
 	@Test
+	public void test_german_date_format() throws Exception {
+		Event event = EventParser.parse("01.02.2018 Testtitle").get();
+		assertEquals("Testtitle", event.getTitle());
+
+		assertEquals("2018-02-01", DateTimeFormatter.ISO_LOCAL_DATE.format(event.getStartDayInclusive()));
+		assertEquals("2018-02-02", DateTimeFormatter.ISO_LOCAL_DATE.format(event.getEndDayExclusive()));
+		assertTrue(event.isWholeDay());
+
+		event = EventParser.parse("1.2.2018 Testtitle").get();
+		assertEquals("Testtitle", event.getTitle());
+
+		assertEquals("2018-02-01", DateTimeFormatter.ISO_LOCAL_DATE.format(event.getStartDayInclusive()));
+		assertEquals("2018-02-02", DateTimeFormatter.ISO_LOCAL_DATE.format(event.getEndDayExclusive()));
+		assertTrue(event.isWholeDay());
+	}
+
+	@Test
 	public void test_multi_day_event() throws Exception {
 		final Event event = EventParser.parse("2018-01-01 - 2018-01-15 Testtitle").get();
 		assertEquals("Testtitle", event.getTitle());

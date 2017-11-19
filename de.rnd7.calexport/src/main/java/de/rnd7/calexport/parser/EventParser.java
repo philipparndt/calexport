@@ -3,6 +3,7 @@ package de.rnd7.calexport.parser;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,14 +12,18 @@ import de.rnd7.calexport.Event;
 
 public final class EventParser {
 
-	private static final String ISO_DATE = "(20\\d\\d-(?:0|1)\\d-(?:0|1|2|3)\\d)";
+	private static final String ISO_DATE = "(?:20\\d\\d-(?:0|1)\\d-(?:0|1|2|3)\\d)";
+	private static final String GERMAN_DATE = "(?:(?:0|1|2|3)?\\d\\.(?:0|1)?\\d\\.20\\d\\d)";
+
+	private static final String DATE = String.format("(%s|%s)", ISO_DATE, GERMAN_DATE);
+
 	private static final String TIME = "((?:0|1|2)?\\d:\\d\\d)";
 	private static final String WHITESPACES = "\\s+";
 
-	private static final Pattern SINGLE_DAY = Pattern.compile(ISO_DATE + WHITESPACES + "(.*)");
-	private static final Pattern MULTI_DAY = Pattern.compile(ISO_DATE + WHITESPACES + "-" + WHITESPACES + ISO_DATE + WHITESPACES + "(.*)");
-	private static final Pattern WITH_START_TIME = Pattern.compile(ISO_DATE + WHITESPACES + TIME + WHITESPACES + "(.*)");
-	private static final Pattern WITH_START_END_TIME = Pattern.compile(ISO_DATE + WHITESPACES + TIME + WHITESPACES + "-" + WHITESPACES + TIME + WHITESPACES + "(.*)");
+	private static final Pattern SINGLE_DAY = Pattern.compile(DATE + WHITESPACES + "(.*)");
+	private static final Pattern MULTI_DAY = Pattern.compile(DATE + WHITESPACES + "-" + WHITESPACES + DATE + WHITESPACES + "(.*)");
+	private static final Pattern WITH_START_TIME = Pattern.compile(DATE + WHITESPACES + TIME + WHITESPACES + "(.*)");
+	private static final Pattern WITH_START_END_TIME = Pattern.compile(DATE + WHITESPACES + TIME + WHITESPACES + "-" + WHITESPACES + TIME + WHITESPACES + "(.*)");
 
 	private EventParser() {
 	}
@@ -60,17 +65,26 @@ public final class EventParser {
 
 	private static Event parseMultiDay(final String start, final String end, final String title) {
 		return new Event(title.trim())
-				.setStart(LocalDate.parse(start))
-				.setEnd(LocalDate.parse(end));
+				.setStart(parseDate(start))
+				.setEnd(parseDate(end));
 	}
 
 	private static Event parseSingleDay(final String date, final String title) {
 		return new Event(title.trim())
-				.setStart(LocalDate.parse(date));
+				.setStart(parseDate(date));
 	}
 
 	private static LocalDateTime parseDateTime(final String date, final String time) {
 		return LocalDateTime.parse(date + " " + time, DateTimeFormatter.ofPattern("yyyy-MM-dd H:mm"));
+	}
+
+	private static LocalDate parseDate(final String date) {
+		try {
+			return LocalDate.parse(date);
+		}
+		catch (final DateTimeParseException e) {
+			return DateTimeFormatter.ofPattern("d.M.yyyy").parse(date, LocalDate::from);
+		}
 	}
 
 }
