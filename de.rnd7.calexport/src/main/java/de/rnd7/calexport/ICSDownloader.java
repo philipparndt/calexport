@@ -3,6 +3,7 @@ package de.rnd7.calexport;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
@@ -28,6 +29,10 @@ public class ICSDownloader {
 	public static InputStream download(final String surl, final HttpClientFactory clientFactory) throws IOException {
 		final String replaced = surl.replace("webcal://", "https://");
 		final HttpGet httpget = new HttpGet(replaced);
+
+		if (surl.startsWith("file:")) {
+			return new URL(surl).openStream();
+		}
 
 		try (final CloseableHttpClient httpclient = clientFactory.create()) {
 			final String ics = httpclient.execute(httpget, RESPONSE_HANDLER);
