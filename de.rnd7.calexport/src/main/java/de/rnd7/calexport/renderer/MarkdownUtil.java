@@ -6,7 +6,10 @@ import org.commonmark.renderer.html.HtmlRenderer;
 
 import j2html.tags.DomContent;
 
-public class MarkdownUtil {
+public final class MarkdownUtil {
+
+	private MarkdownUtil() {
+	}
 
 	public static DomContent convertMarkdown(final String text) {
 		final Parser parser = Parser.builder().build();

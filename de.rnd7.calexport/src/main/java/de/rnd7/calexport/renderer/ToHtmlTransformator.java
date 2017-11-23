@@ -1,6 +1,19 @@
 package de.rnd7.calexport.renderer;
 
-import static j2html.TagCreator.*;
+import static j2html.TagCreator.attrs;
+import static j2html.TagCreator.body;
+import static j2html.TagCreator.div;
+import static j2html.TagCreator.head;
+import static j2html.TagCreator.html;
+import static j2html.TagCreator.img;
+import static j2html.TagCreator.meta;
+import static j2html.TagCreator.style;
+import static j2html.TagCreator.table;
+import static j2html.TagCreator.tbody;
+import static j2html.TagCreator.tfoot;
+import static j2html.TagCreator.thead;
+import static j2html.TagCreator.title;
+import static j2html.TagCreator.tr;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -9,43 +22,24 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.Year;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.IntStream;
 
 import org.apache.commons.io.IOUtils;
 
-import com.google.common.collect.ImmutableList;
-
-import de.rnd7.calexport.Event;
+import de.rnd7.calexport.config.Calconfig;
 import j2html.Config;
 import j2html.tags.ContainerTag;
-import j2html.tags.DomContent;
 
 public class ToHtmlTransformator {
-
-	static final DomContent ABENDMAHL = img()
-			.attr("width", 35)
-			.attr("height", 35)
-			.attr("alt", "Abendmahl")
-			.attr("src", loadImage("abendmahl.png"));
 
 	private ToHtmlTransformator() {
 	}
 
-	public static List<ColumnGenerator> setup(final List<Event> main, final List<Event> moessingen, final List<Event> bodelshausen, final List<Event> dusslingen, final int year, final Month month) {
-		return ImmutableList.of(
-				new ColumnGeneratorDay(main, year, month, ".date"),
-				new ColumnGeneratorLocation(moessingen, "Mössingen\nChristuskirche", year, month, ".moessingen"),
-				new ColumnGeneratorLocation(bodelshausen, "Bodelshausen\nFriedenskirche", year, month, ".bodelshausen"),
-				new ColumnGeneratorLocation(dusslingen, "Dusslingen\nFriedenskirche", year, month, ".dusslingen"));
-
-	}
-
-	public static String toHtml(final List<ColumnGenerator> generators) throws IOException {
+	public static String toHtml(final Calconfig config, final List<ColumnGenerator> generators, final int year, final Month month) throws IOException {
 		Config.closeEmptyTags = true;
-
-		final int year = generators.iterator().next().getYear();
-		final Month month = generators.iterator().next().getMonth();
 
 		final int days = month.length(Year.isLeap(year));
 
@@ -70,7 +64,7 @@ public class ToHtmlTransformator {
 
 		final ContainerTag titleDate = div(ColumnGenerator.MONTH_FORMATTER.format(LocalDate.of(year, month.getValue(), 1))).withClass("titleDate");
 
-		final ContainerTag title = div("Evangelisch-methodistische Kirche, Bezirk Mössingen").withClass("title");
+		final ContainerTag title = div(config.getTitle()).withClass("title");
 
 		final ContainerTag html = html(
 				head(
@@ -91,14 +85,16 @@ public class ToHtmlTransformator {
 		+ html.renderFormatted();
 	}
 
-	private static String loadImage(final String imageName) {
-		try (InputStream in = ToHtmlTransformator.class.getResourceAsStream(imageName)) {
-			return "data:image/gif;base64," + new String(Base64.getEncoder().encode(IOUtils.toByteArray(in)));
-		}
-		catch (final IOException e) {
-			throw new RuntimeException("Error loading image " + imageName, e);
-		}
-	}
+
+	//
+	//	private static String loadImage(final String imageName) {
+	//		try (InputStream in = ToHtmlTransformator.class.getResourceAsStream(imageName)) {
+	//			return "data:image/gif;base64," + new String(Base64.getEncoder().encode(IOUtils.toByteArray(in)));
+	//		}
+	//		catch (final IOException e) {
+	//			throw new RendererRuntimeException("Error loading image " + imageName, e);
+	//		}
+	//	}
 
 	private static ContainerTag createHeader(final List<ColumnGenerator> generators) {
 		final ContainerTag thead = thead();

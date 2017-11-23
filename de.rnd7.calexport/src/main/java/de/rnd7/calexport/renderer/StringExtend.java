@@ -4,13 +4,16 @@ import java.awt.Font;
 import java.awt.font.FontRenderContext;
 import java.awt.geom.AffineTransform;
 
-public class StringExtend {
+public final class StringExtend {
+
+	private StringExtend() {
+	}
+
 	public static int getWidth(final String text) {
 		final AffineTransform affinetransform = new AffineTransform();
 		final FontRenderContext frc = new FontRenderContext(affinetransform,true,true);
 		final Font font = new Font("Calibri", Font.PLAIN, 10);
-		final int textwidth = (int)font.getStringBounds(text, frc).getWidth();
-		return textwidth;
+		return (int)font.getStringBounds(text, frc).getWidth();
 	}
 
 	public static int getWidthEm(final String text) {

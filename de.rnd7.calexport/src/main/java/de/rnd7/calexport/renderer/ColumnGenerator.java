@@ -12,10 +12,12 @@ import static j2html.TagCreator.tr;
 import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -159,13 +161,23 @@ public abstract class ColumnGenerator {
 		final Stream<Event> eventsOfDay = Streams.concat(this.stream(this.byDaySingleDay, date), this.stream(this.byDay, date));
 		ContainerTag target=first;
 
-		if (eventsOfDay.anyMatch(Event::isAbendmahl)) {
 
+		final Set<String> effectiveTags = eventsOfDay.map(Event::getTags).flatMap(Collection::stream).collect(Collectors.toSet());
+
+		if (!effectiveTags.isEmpty()) {
 			final ContainerTag td = td(attrs(IMAGE));
 			td.attr("width", "100%");
 			target = td;
+			final ContainerTag cell = td(attrs(IMAGE));
 
-			final ContainerTag table = table(attrs(IMAGE)).with(tr(attrs(IMAGE)).with(td).with(td(attrs(IMAGE)).with(ToHtmlTransformator.ABENDMAHL)));
+			effectiveTags.stream()
+			.map(ImageTags.getImageTags()::get)
+			.forEach(cell::with);
+
+			final ContainerTag table = table(attrs(IMAGE))
+					.with(tr(attrs(IMAGE))
+							.with(td).with(td(attrs(IMAGE))
+									.with(cell)));
 			first.with(table);
 		}
 

@@ -6,24 +6,30 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.time.Year;
 import java.time.temporal.Temporal;
+import java.util.List;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
+
+import de.rnd7.calexport.renderer.ImageTags;
 
 public class Event {
 	private final String title;
 	private boolean wholeDay;
 	private LocalDateTime start;
 	private LocalDateTime end;
-	private final boolean abendmahl;
+	private final List<String> tags;
 
 	public Event(final String title) {
-		this.abendmahl = title.toLowerCase().contains("#abendmahl");
-		final String replaced = this.cleanup(title);
+		this.tags = ImageTags.getImageTags().keySet().stream()
+				.filter(title.toLowerCase()::contains)
+				.collect(Collectors.toList());
 
-		this.title = replaced;
+		this.title = this.cleanup(title);
 	}
 
 	private String cleanup(final String title) {
-		final Pattern pattern = Pattern.compile("#abendmahl", Pattern.CASE_INSENSITIVE);
+		final String joined = this.tags.stream().collect(Collectors.joining("|"));
+		final Pattern pattern = Pattern.compile("(" + joined + ")", Pattern.CASE_INSENSITIVE);
 		String replaced = pattern.matcher(title).replaceAll("");
 
 		while (replaced.contains("  ")) {
@@ -32,8 +38,8 @@ public class Event {
 		return replaced;
 	}
 
-	public boolean isAbendmahl() {
-		return this.abendmahl;
+	public List<String> getTags() {
+		return this.tags;
 	}
 
 	public Event setWholeDay(final boolean wholeDay) {
@@ -154,10 +160,10 @@ public class Event {
 			return 0;
 		}
 
-		final LocalDate day = LocalDate.of(year, month.getValue(), dayOfMonth);
-		final LocalDate end = this.getTrimmedEnd(this.getEndDayExclusive(), year, month);
+		final LocalDate startDay = LocalDate.of(year, month.getValue(), dayOfMonth);
+		final LocalDate endDay = this.getTrimmedEnd(this.getEndDayExclusive(), year, month);
 
-		return (int) Duration.between(day.atStartOfDay(), end.atStartOfDay()).toDays();
+		return (int) Duration.between(startDay.atStartOfDay(), endDay.atStartOfDay()).toDays();
 	}
 
 	private LocalDate getTrimmedStart(final LocalDate startDay, final int year, final Month month) {
