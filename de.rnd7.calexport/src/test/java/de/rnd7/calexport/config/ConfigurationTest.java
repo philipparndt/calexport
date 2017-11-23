@@ -27,6 +27,7 @@ public class ConfigurationTest {
 		calendar.setName("Main");
 		calendar.setUrl("http://example.org/webal.ics");
 		calendar.setType(ColumnType.DATE);
+
 		calendars.add(calendar);
 
 		final List<Hashtag> tags = config.getHashtag();

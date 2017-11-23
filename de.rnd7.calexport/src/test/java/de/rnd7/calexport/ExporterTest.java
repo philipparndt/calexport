@@ -30,6 +30,7 @@ public class ExporterTest {
 		calendars.add(calendar);
 
 		final List<String> files = Exporter.export(LocalDate.of(2017,  10,  1), calconfig);
+
 		assertEquals(2, files.size());
 		final String october = files.get(0);
 		assertTrue(october.contains("Whole day event"));

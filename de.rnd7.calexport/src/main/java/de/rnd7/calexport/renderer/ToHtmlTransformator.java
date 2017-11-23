@@ -86,6 +86,7 @@ public class ToHtmlTransformator {
 	}
 
 
+
 	//
 	//	private static String loadImage(final String imageName) {
 	//		try (InputStream in = ToHtmlTransformator.class.getResourceAsStream(imageName)) {
@@ -95,6 +96,15 @@ public class ToHtmlTransformator {
 	//			throw new RendererRuntimeException("Error loading image " + imageName, e);
 	//		}
 	//	}
+
+	private static String loadImage(final String imageName) {
+		try (InputStream in = ToHtmlTransformator.class.getResourceAsStream(imageName)) {
+			return "data:image/gif;base64," + new String(Base64.getEncoder().encode(IOUtils.toByteArray(in)));
+		}
+		catch (final IOException e) {
+			throw new RendererRuntimeException("Error loading image " + imageName, e);
+		}
+	}
 
 	private static ContainerTag createHeader(final List<ColumnGenerator> generators) {
 		final ContainerTag thead = thead();
