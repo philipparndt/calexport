@@ -1,5 +1,1 @@
-<<<<<<< HEAD
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?><calconfig><exportmonths>15</exportmonths><title>Title</title><footer>Footer</footer><calendar><url>http://example.org/webal.ics</url><name>Main</name><type>DATE</type></calendar><hashtag><name>foobar</name><image>examplebase64image</image></hashtag></calconfig>
-=======
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?><calconfig><exportmonths>15</exportmonths><title>Title</title><footer>Footer</footer><calendar><url>http://example.org/webal.ics</url><name>Main</name></calendar><hashtag><name>foobar</name><image>examplebase64image</image></hashtag></calconfig>
->>>>>>> branch 'master' of https://github.com/philipparndt/calexport.git
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?><calconfig><exportmonths>15</exportmonths><title>Title</title><footer>Footer</footer><calendar><url>http://example.org/webal.ics</url><name>Main</name><type>DATE</type></calendar><hashtag><name>foobar</name><width>0</width><height>0</height><image>examplebase64image</image></hashtag></calconfig>

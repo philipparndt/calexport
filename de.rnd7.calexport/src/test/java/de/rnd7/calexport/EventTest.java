@@ -8,13 +8,25 @@ import java.time.Month;
 
 import org.junit.Test;
 
+import de.rnd7.calexport.config.Calconfig;
+import de.rnd7.calexport.config.Calconfig.Hashtag;
+import de.rnd7.calexport.renderer.ImageTags;
+
 public class EventTest {
 
 	@Test
 	public void test_title_clean() throws Exception {
 		assertEquals("hello world", new Event("hello   world").getTitle());
 		assertEquals("hello world", new Event("hello world").getTitle());
-		assertEquals("hello world", new Event("hello #Abendmahl world").getTitle());
+
+		final Calconfig config = new Calconfig();
+		final Hashtag tag = new Hashtag();
+		tag.setName("A");
+		config.getHashtag().add(tag);
+
+		ImageTags.initTags(config);
+
+		assertEquals("hello world", new Event("hello #A world").getTitle());
 	}
 
 	@Test

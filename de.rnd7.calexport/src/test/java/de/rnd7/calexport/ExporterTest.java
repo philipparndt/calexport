@@ -11,6 +11,7 @@ import java.util.List;
 import org.junit.Test;
 
 import de.rnd7.calexport.config.Calconfig;
+import de.rnd7.calexport.config.ColumnType;
 import de.rnd7.calexport.config.Calconfig.Calendar;
 
 public class ExporterTest {
@@ -25,7 +26,7 @@ public class ExporterTest {
 
 		final Calendar calendar = new Calendar();
 		calendar.setUrl(surl);
-
+		calendar.setType(ColumnType.DATE);
 		final List<Calendar> calendars = calconfig.getCalendar();
 		calendars.add(calendar);
 
