@@ -47,8 +47,7 @@ public class Main {
 			runExport(configFile, templateFile);
 		}
 		catch( final ParseException exp ) {
-			// oops, something went wrong
-			LOGGER.error("Parsing failed.  Reason: " + exp.getMessage());
+			LOGGER.error(exp.getMessage());
 		}
 	}
 
