@@ -9,6 +9,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.CharEncoding;
 import org.junit.Test;
 
 import de.rnd7.calexport.config.Calconfig.Calendar;
@@ -39,14 +40,14 @@ public class ConfigurationTest {
 		try (ByteArrayOutputStream out = new ByteArrayOutputStream()) {
 			Configuration.writeTo(config, out);
 
-			assertEquals(this.load("example.xml"), out.toString("utf-8"));
+			assertEquals(this.load("example.xml"), out.toString(CharEncoding.UTF_8));
 		}
 	}
 
 	@Test
 	public void test_read() throws Exception {
 		final String xml = this.load("example.xml");
-		try (final InputStream in = new ByteArrayInputStream(xml.getBytes("utf-8"))) {
+		try (final InputStream in = new ByteArrayInputStream(xml.getBytes(CharEncoding.UTF_8))) {
 			final Calconfig calconfig = Configuration.loadFrom(in);
 
 			assertEquals("Title", calconfig.getTitle());
@@ -59,7 +60,7 @@ public class ConfigurationTest {
 
 	private String load(final String name) throws IOException {
 		try(InputStream in = ConfigurationTest.class.getResourceAsStream(name)) {
-			return IOUtils.toString(in, "utf-8");
+			return IOUtils.toString(in, CharEncoding.UTF_8);
 		}
 	}
 }

@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 import java.io.IOException;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.CharEncoding;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.entity.StringEntity;
@@ -27,7 +28,7 @@ public class ICSDownloaderTest {
 			}
 		});
 
-		assertEquals("https://example.org/test", IOUtils.toString(ICSDownloader.download("webcal://example.org/test", () -> client), "utf8"));
+		assertEquals("https://example.org/test", IOUtils.toString(ICSDownloader.download("webcal://example.org/test", () -> client), CharEncoding.UTF_8));
 	}
 
 	@Test

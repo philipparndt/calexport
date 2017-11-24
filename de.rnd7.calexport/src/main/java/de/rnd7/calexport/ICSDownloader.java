@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import org.apache.commons.lang.CharEncoding;
 import org.apache.http.HttpEntity;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.ResponseHandler;
@@ -36,7 +37,7 @@ public class ICSDownloader {
 
 		try (final CloseableHttpClient httpclient = clientFactory.create()) {
 			final String ics = httpclient.execute(httpget, RESPONSE_HANDLER);
-			return new ByteArrayInputStream(ics.getBytes("utf-8"));
+			return new ByteArrayInputStream(ics.getBytes(CharEncoding.UTF_8));
 		}
 
 	}

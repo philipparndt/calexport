@@ -23,6 +23,7 @@ public class ExporterTest {
 
 		final Calconfig calconfig = new Calconfig();
 		calconfig.setExportmonths(2);
+		calconfig.setTitle("Title");
 
 		final Calendar calendar = new Calendar();
 		calendar.setUrl(surl);

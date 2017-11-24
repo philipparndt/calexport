@@ -3,9 +3,7 @@ package de.rnd7.calexport;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.charset.Charset;
 import java.time.LocalDate;
-
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -13,6 +11,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.CharEncoding;
 import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,7 +39,17 @@ public class Exporter {
 	private Exporter() {
 	}
 
+	public static String defaultTemplate() throws IOException {
+		try (InputStream in = ToHtmlTransformator.class.getResourceAsStream("template.ftl")) {
+			return IOUtils.toString(in, CharEncoding.UTF_8);
+		}
+	}
+
 	public static List<String> export(final LocalDate start, final Calconfig config) throws EventParseException, IOException {
+		return export(start, config, defaultTemplate());
+	}
+
+	public static List<String> export(final LocalDate start, final Calconfig config, final String template) throws EventParseException, IOException {
 		ImageTags.initTags(config);
 
 		final LocalDate month = LocalDate.of(start.getYear(), start.getMonth(), 1);
@@ -54,7 +64,7 @@ public class Exporter {
 					.collect(Collectors.toList());
 
 
-			result.add(export(config, generators, exportMonth));
+			result.add(export(config, template, generators, exportMonth));
 		}
 
 		return result;
@@ -70,7 +80,7 @@ public class Exporter {
 
 	private static ColumnGenerator init(final Calendar calendar, final int year, final Month month) {
 		try {
-			final String classes = "";
+			final String classes = calendar.getClasses();
 			final List<Event> events = eventCache.get(calendar);
 			switch (calendar.getType()) {
 			case LOCATION:
@@ -86,13 +96,13 @@ public class Exporter {
 
 	}
 
-	private static String export(final Calconfig config, final List<ColumnGenerator> setup, final LocalDate exportMonth) throws IOException {
-		final String html = ToHtmlTransformator.toHtml(config, setup, exportMonth.getYear(), exportMonth.getMonth());
+	private static String export(final Calconfig config, final String template, final List<ColumnGenerator> setup, final LocalDate exportMonth) throws IOException {
+		final String html = ToHtmlTransformator.toHtml(config, template, setup, exportMonth.getYear(), exportMonth.getMonth());
 
 		final File file = new File(String.format("%s.html", DateTimeFormatter.ofPattern("yyyy-MM").format(exportMonth)));
 		LOGGER.info("Writing {}", file.getAbsolutePath());
 
-		FileUtils.writeStringToFile(file, html, Charset.forName("utf8"));
+		FileUtils.writeStringToFile(file, html, CharEncoding.UTF_8);
 
 		return html;
 	}
@@ -105,5 +115,6 @@ public class Exporter {
 			throw new EventParseException(e);
 		}
 	}
+
 
 }

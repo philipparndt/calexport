@@ -20,6 +20,7 @@
           <xs:sequence>
             <xs:element name="url" type="xs:string"/>
             <xs:element name="name" type="xs:string"/>
+            <xs:element name="classes" type="xs:string"/>
             <xs:element name="type" type="columnType" />
           </xs:sequence>
         </xs:complexType>

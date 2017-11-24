@@ -11,6 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.CharEncoding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,7 +53,7 @@ public final class EventFactory {
 	}
 
 	public static List<Event> fromFlatFile(final InputStream in) throws IOException {
-		return IOUtils.readLines(in, "utf-8").stream()
+		return IOUtils.readLines(in, CharEncoding.UTF_8).stream()
 				.map(String::trim)
 				.filter(s -> !s.isEmpty())
 				.map(EventFactory::toEvent)
