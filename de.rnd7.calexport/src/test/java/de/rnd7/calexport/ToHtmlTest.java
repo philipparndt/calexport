@@ -44,7 +44,7 @@ public class ToHtmlTest {
 		final List<Event> c = this.read("c.txt");
 		final List<ColumnGenerator> setup =
 				ImmutableList.of(
-						new ColumnGeneratorDay(main, 2017, Month.OCTOBER, ".date"),
+						new ColumnGeneratorDay(main, "Main", 2017, Month.OCTOBER, ".date"),
 						new ColumnGeneratorLocation(a, "A\nline2", 2017, Month.OCTOBER, ".a"),
 						new ColumnGeneratorLocation(b, "B\nline2", 2017, Month.OCTOBER, ".b"),
 						new ColumnGeneratorLocation(c, "C\nline2", 2017, Month.OCTOBER, ".c"));

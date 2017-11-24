@@ -64,14 +64,6 @@ public abstract class ColumnGenerator {
 		this.aggregator = new MultiEventAggregator(events, year, month);
 	}
 
-	public Month getMonth() {
-		return this.month;
-	}
-
-	public int getYear() {
-		return this.year;
-	}
-
 	public String getTitle() {
 		return this.title;
 	}

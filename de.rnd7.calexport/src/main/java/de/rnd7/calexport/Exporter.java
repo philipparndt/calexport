@@ -86,7 +86,7 @@ public class Exporter {
 			case LOCATION:
 				return new ColumnGeneratorLocation(events, calendar.getName(), year, month, classes);
 			case DATE:
-				return new ColumnGeneratorDay(events, year, month, classes);
+				return new ColumnGeneratorDay(events, calendar.getName(), year, month, classes);
 			default:
 				throw new EventParseException("Unknown type: " + calendar.getType());
 			}

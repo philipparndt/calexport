@@ -14,8 +14,8 @@ import j2html.tags.ContainerTag;
 public class ColumnGeneratorDay extends ColumnGenerator {
 	private final String classes;
 
-	public ColumnGeneratorDay(final List<Event> events, final int year, final Month month, final String classes) {
-		super(events, toMonthName(year, month), year, month);
+	public ColumnGeneratorDay(final List<Event> events, final String title, final int year, final Month month, final String classes) {
+		super(events, title, year, month);
 		this.classes = classes;
 	}
 
@@ -28,10 +28,6 @@ public class ColumnGeneratorDay extends ColumnGenerator {
 	protected ContainerTag addNormalEventClass(final ContainerTag normalEvent) {
 		normalEvent.withClass("single-day");
 		return normalEvent;
-	}
-
-	private static String toMonthName(final int year, final Month month) {
-		return ColumnGenerator.MONTH_FORMATTER.format(LocalDate.of(year, month.getValue(), 1));
 	}
 
 	@Override

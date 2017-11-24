@@ -35,11 +35,14 @@ public class ToHtmlTransformator {
 		Config.closeEmptyTags = true;
 
 		final Map<String, Object> data = initData(config, year, month);
-		data.put("Table", buildTable(generators, year, month));
+		data.put("Table", processTemplate(data, buildTable(generators, year, month)));
 
-		final Configuration cfg = new Configuration();
+		return processTemplate(data, ftltemplate);
+	}
 
+	private static final String processTemplate(final Map<String, Object> data, final String ftltemplate) throws IOException {
 		try {
+			final Configuration cfg = new Configuration();
 			final Template template = new Template("templateName", new StringReader(ftltemplate), cfg);
 			final StringWriter out = new StringWriter();
 			template.process(data, out);
