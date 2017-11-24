@@ -17,19 +17,14 @@ import de.rnd7.calexport.config.Calconfig.Calendar;
 public class ExporterTest {
 	@Test
 	public void test_integration() throws Exception {
-
 		final URL url = ExporterTest.class.getResource("simple.ics");
-		final String surl = url.toExternalForm();
-
 		final Calconfig calconfig = new Calconfig();
 		calconfig.setExportmonths(2);
 		calconfig.setTitle("Title");
 
-		final Calendar calendar = new Calendar();
-		calendar.setUrl(surl);
-		calendar.setType(ColumnType.DATE);
 		final List<Calendar> calendars = calconfig.getCalendar();
-		calendars.add(calendar);
+		calendars.add(this.createCalendar(url, ColumnType.DATE, "Main"));
+		calendars.add(this.createCalendar(url, ColumnType.LOCATION, "A"));
 
 		final List<String> files = Exporter.export(LocalDate.of(2017,  10,  1), calconfig);
 
@@ -41,5 +36,13 @@ public class ExporterTest {
 		final String november = files.get(1);
 		assertFalse(november.contains("Whole day event"));
 		assertFalse(november.contains("Das ist ein Test"));
+	}
+
+	private Calendar createCalendar(final URL url, final ColumnType type, final String name) {
+		final Calendar calendar = new Calendar();
+		calendar.setUrl(url.toExternalForm());
+		calendar.setType(type);
+		calendar.setName(name);
+		return calendar;
 	}
 }

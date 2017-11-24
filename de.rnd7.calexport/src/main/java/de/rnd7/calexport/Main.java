@@ -22,8 +22,9 @@ import de.rnd7.calexport.config.Configuration;
 
 public class Main {
 
-	private static final String CONFIG = "config";
-	private static final String TEMPLATE = "template";
+	static final String CONFIG = "config";
+	static final String TEMPLATE = "template";
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
 	public static void main(final String[] args) {
@@ -40,17 +41,10 @@ public class Main {
 			final String configFile = line.getOptionValue(CONFIG);
 			final String templateFile = line.getOptionValue(TEMPLATE);
 
-			LOGGER.info("Config file: " + configFile);
-			LOGGER.info("Template file: " + templateFile);
+			LOGGER.info("Config file: {}", configFile);
+			LOGGER.info("Template file: {}", templateFile);
 
-			try (InputStream in = new FileInputStream(configFile)) {
-				final Calconfig config = Configuration.loadFrom(in);
-				final String template = loadTemplate(new File(templateFile));
-				Exporter.export(LocalDate.now(), config, template);
-			}
-			catch (final Exception e) {
-				LOGGER.error(e.getMessage(), e);
-			}
+			runExport(configFile, templateFile);
 		}
 		catch( final ParseException exp ) {
 			// oops, something went wrong
@@ -58,7 +52,18 @@ public class Main {
 		}
 	}
 
-	private static Options buildOptions() {
+	private static void runExport(final String configFile, final String templateFile) {
+		try (InputStream in = new FileInputStream(configFile)) {
+			final Calconfig config = Configuration.loadFrom(in);
+			final String template = loadTemplate(new File(templateFile));
+			Exporter.export(LocalDate.now(), config, template);
+		}
+		catch (final Exception e) {
+			LOGGER.error(e.getMessage(), e);
+		}
+	}
+
+	static Options buildOptions() {
 		final Options options = new Options();
 		options.addOption(Option.builder(TEMPLATE)
 				.hasArg()

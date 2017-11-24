@@ -58,6 +58,13 @@ public class ConfigurationTest {
 		}
 	}
 
+	@Test(expected=ConfigurationRuntimeException.class)
+	public void test_invalid_config() throws Exception {
+		try (final InputStream in = new ByteArrayInputStream("foo".getBytes(CharEncoding.UTF_8))) {
+			Configuration.loadFrom(in);
+		}
+	}
+
 	private String load(final String name) throws IOException {
 		try(InputStream in = ConfigurationTest.class.getResourceAsStream(name)) {
 			return IOUtils.toString(in, CharEncoding.UTF_8);

@@ -45,11 +45,11 @@ public class Exporter {
 		}
 	}
 
-	public static List<String> export(final LocalDate start, final Calconfig config) throws EventParseException, IOException {
+	public static List<String> export(final LocalDate start, final Calconfig config) throws IOException {
 		return export(start, config, defaultTemplate());
 	}
 
-	public static List<String> export(final LocalDate start, final Calconfig config, final String template) throws EventParseException, IOException {
+	public static List<String> export(final LocalDate start, final Calconfig config, final String template) throws IOException {
 		ImageTags.initTags(config);
 
 		final LocalDate month = LocalDate.of(start.getYear(), start.getMonth(), 1);

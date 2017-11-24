@@ -68,13 +68,11 @@ public class ToHtmlTransformator {
 			}
 		});
 
-		final ContainerTag table = table(
+		return table(
 				createHeader(generators),
 				tbody,
-				createFooter(generators));
-
-		final String stable = table.renderFormatted();
-		return stable;
+				createFooter(generators))
+				.renderFormatted();
 	}
 
 	private static Map<String, Object> initData(final Calconfig config, final int year, final Month month) {
