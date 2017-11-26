@@ -17,6 +17,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 import de.rnd7.calexport.config.Calconfig;
@@ -85,6 +86,8 @@ public class ToHtmlTransformator {
 		data.put("Month", DateTimeFormatter.ofPattern("MM").format(date));
 		data.put("MonthName", DateTimeFormatter.ofPattern("MMMM").format(date));
 		data.put("Title", config.getTitle());
+		Optional.ofNullable(System.getProperty("ExampleURL")).ifPresent(url -> data.put("ExampleURL", url));
+
 		return data;
 	}
 

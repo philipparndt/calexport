@@ -19,14 +19,9 @@ public class Main {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
-	public static void main(final String[] args) {
-		try {
-			final CmdParameters parameters = CmdParameters.parse(args);
-			runExport(parameters.getConfig(), parameters.getTemplate());
-		}
-		catch( final ParseException exp ) {
-			LOGGER.error(exp.getMessage());
-		}
+	public static void main(final String[] args) throws ParseException {
+		final CmdParameters parameters = CmdParameters.parse(args);
+		runExport(parameters.getConfig(), parameters.getTemplate());
 	}
 
 	private static void runExport(final File configFile, final File templateFile) {

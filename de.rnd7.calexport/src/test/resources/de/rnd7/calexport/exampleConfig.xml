@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<calconfig>
+	<exportmonths>16</exportmonths>
+	<title>Example title</title>
+	<footer></footer>
+	<calendar>
+		<url>${ExampleURL}</url>
+		<name>${MonthName} ${Year}</name>
+		<classes>main</classes>
+		<type>DATE</type>
+	</calendar>
+	<hashtag>
+		<name>AB</name>
+		<width>10</width>
+		<height>01</height>
+		<image>data:image/png;base64,iVB...</image>
+	</hashtag>
+</calconfig>

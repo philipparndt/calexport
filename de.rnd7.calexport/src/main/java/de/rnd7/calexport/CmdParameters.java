@@ -16,20 +16,20 @@ public class CmdParameters {
 	private static final String TEMPLATE = "template";
 	private static final Logger LOGGER = LoggerFactory.getLogger(CmdParameters.class);
 
-	private final File config;
-	private final File template;
+	private final File configFile;
+	private final File templateFile;
 
 	private CmdParameters(final File config, final File template) {
-		this.config = config;
-		this.template = template;
+		this.configFile = config;
+		this.templateFile = template;
 	}
 
 	public File getConfig() {
-		return this.config;
+		return this.configFile;
 	}
 
 	public File getTemplate() {
-		return this.template;
+		return this.templateFile;
 	}
 
 	static CmdParameters parse(final String[] args) throws ParseException{
