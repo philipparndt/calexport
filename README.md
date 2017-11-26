@@ -20,6 +20,33 @@ The template file is a freemarker template file containing a html template with 
 - Table (The month table, one column per calendar and one row per day)
 
 Example:
+```
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+        "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="de" lang="de">
+    <head>
+        <meta charset="utf-8"/>
+        <style>
+        ...
+        </style>
+        <title>
+            ${Year}-${Month}
+        </title>
+    </head>
+    <body>
+        <div class="titleDate">
+            ${MonthName} ${Year}
+        </div>
+        <div class="title">
+            ${Title}
+        </div>
+        ${Table}
+    </body>
+</html>
+```
+
+You can find a full example here:
 https://raw.githubusercontent.com/philipparndt/calexport/master/de.rnd7.calexport/src/main/resources/de/rnd7/calexport/renderer/template.ftl
 
 # Configuration
