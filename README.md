@@ -4,9 +4,10 @@
 
 This tool will create a month export from multiple web calendars (ical). 
 
-Example:
+# Example export:
 ![example](https://github.com/philipparndt/calexport/blob/master/example.png)
 
+# Command line parameters:
 There are two command line arguments:
 template (template file)
 config (configuration file)
