@@ -69,11 +69,11 @@
             }
 
             td.dayColumn {
-                width: 15%;
+                width: 16%;
             }
 
             td.eventColumn {
-                width: 30%;
+                width: 28%;
             }
 
             .single-day { 
