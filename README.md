@@ -67,12 +67,14 @@ Example:
 		<name>${MonthName} ${Year}</name>
 		<classes>main</classes>
 		<type>DATE</type>
+		<locationFilter>regexp that matches the location for this column</locationFilter><!-- optional-->
 	</calendar>
 	<calendar>
 		<url>https://calendar.google.com/calendar/ical/.../basic.ics</url>
 		<name>A</name>
 		<classes>classA</classes>
 		<type>LOCATION</type>
+		<locationFilter>regexp that matches the location for this column</locationFilter><!-- optional-->
 	</calendar>	
 	...
 	<hashtag>
