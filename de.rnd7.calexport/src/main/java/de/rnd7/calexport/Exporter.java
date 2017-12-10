@@ -8,6 +8,8 @@ import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -112,7 +114,12 @@ public class Exporter {
 	}
 
 	private static List<Event> load(final String surl) throws EventParseException {
-		try (InputStream inputStream = ICSDownloader.download(surl, HttpClients::createDefault)) {
+		String url = surl;
+		if ("${ExampleURL}".equals(surl)) {
+			url = System.getProperty("ExampleURL");
+		}
+
+		try (InputStream inputStream = ICSDownloader.download(url, HttpClients::createDefault)) {
 			return EventFactory.fromICal(inputStream);
 		}
 		catch (final IOException e) {
