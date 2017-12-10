@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import org.apache.commons.lang.StringUtils;
+
 import de.rnd7.calexport.renderer.ImageTags;
 
 public class Event {
@@ -18,6 +20,7 @@ public class Event {
 	private LocalDateTime start;
 	private LocalDateTime end;
 	private final List<String> tags;
+	private String location = "";
 
 	public Event(final String title) {
 		this.tags = ImageTags.getImageTags().keySet().stream()
@@ -25,6 +28,14 @@ public class Event {
 				.collect(Collectors.toList());
 
 		this.title = this.cleanup(title);
+	}
+
+	public void setLocation(final String location) {
+		this.location = location;
+	}
+
+	public String getLocation() {
+		return this.location;
 	}
 
 	private String cleanup(final String title) {
@@ -36,6 +47,15 @@ public class Event {
 			replaced = replaced.replaceAll("  ", " ");
 		}
 		return replaced;
+	}
+
+	public boolean locationMatches(final String filter) {
+		if (StringUtils.isEmpty(filter)) {
+			return true;
+		}
+		else {
+			return Pattern.compile(filter, Pattern.CASE_INSENSITIVE).matcher(this.location).matches();
+		}
 	}
 
 	public List<String> getTags() {
@@ -193,4 +213,5 @@ public class Event {
 
 		return String.format("%s - %s: %s", startTemp, endTemp, this.title);
 	}
+
 }

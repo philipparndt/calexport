@@ -22,6 +22,7 @@
             <xs:element name="name" type="xs:string"/>
             <xs:element name="classes" type="xs:string"/>
             <xs:element name="type" type="columnType" />
+            <xs:element name="locationFilter" type="xs:string" minOccurs="0" maxOccurs="1"  />
           </xs:sequence>
         </xs:complexType>
       </xs:element>

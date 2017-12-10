@@ -81,10 +81,16 @@ public final class EventFactory {
 
 		final VEvent vEvent = new VEvent(component.getProperties());
 
-		return new Event(property.getValue())
+		final Event result = new Event(property.getValue())
 				.setWholeDay(isWholeDay(vEvent))
 				.setStart(parseDate(vEvent.getStartDate()))
 				.setEnd(parseDate(vEvent.getEndDate()));
+
+		if (vEvent.getLocation() != null) {
+			result.setLocation(vEvent.getLocation().getValue());
+		}
+
+		return result;
 	}
 
 	private static boolean isWholeDay(final VEvent vEvent) {

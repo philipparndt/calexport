@@ -8,6 +8,7 @@ import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import org.apache.commons.io.FileUtils;
@@ -72,7 +73,10 @@ public class Exporter {
 
 	private static final List<Event> load(final Calendar calendar) {
 		try {
-			return load(calendar.getUrl());
+			return load(calendar.getUrl())
+					.stream()
+					.filter(event -> event.locationMatches(calendar.getLocationFilter()))
+					.collect(Collectors.toList());
 		} catch (final EventParseException e) {
 			throw new EventParseRuntimeException(e);
 		}

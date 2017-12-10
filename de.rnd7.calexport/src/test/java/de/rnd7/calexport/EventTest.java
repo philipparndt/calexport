@@ -141,6 +141,22 @@ public class EventTest {
 		assertTrue(create(23, 15).conflictsInMonth(create(27, 3), 2017, Month.JANUARY));
 	}
 
+	@Test
+	public void test_null_location_filter() throws Exception {
+		final Event event = create(1, 1);
+		assertTrue(event.locationMatches(null));
+		assertTrue(event.locationMatches(""));
+	}
+
+	@Test
+	public void test_location_filter() throws Exception {
+		final Event event = create(1, 1);
+		event.setLocation("A");
+		assertTrue(event.locationMatches("A"));
+		assertTrue(event.locationMatches("a"));
+		assertFalse(event.locationMatches("b"));
+	}
+
 	private static Event create(final int day, final int durationDays) {
 		return new Event("")
 				.setStart(LocalDate.of(2017, 1, day))

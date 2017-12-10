@@ -28,4 +28,22 @@ public class CalTest {
 			assertEquals(3, event2.getDuration().toDays());
 		}
 	}
+
+	@Test
+	public void test_with_location() throws Exception {
+		try (final InputStream in = CalTest.class.getResourceAsStream("with_location.ics")) {
+			final List<Event> events = EventFactory.fromICal(in);
+			assertEquals(2, events.size());
+
+			final Event event1 = events.get(0);
+			final Event event2 = events.get(1);
+
+			assertFalse(event1.isWholeDay());
+			assertEquals("event1", event1.getTitle());
+			assertEquals("foo", event1.getLocation());
+
+			assertEquals("event2", event2.getTitle());
+			assertEquals("bar", event2.getLocation());
+		}
+	}
 }
