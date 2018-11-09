@@ -7,6 +7,7 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -75,6 +76,8 @@ public class Exporter {
 			return load(calendar.getUrl())
 					.stream()
 					.filter(event -> event.locationMatches(calendar.getLocationFilter()))
+					.filter(event -> event.getRuleCount() == 0)
+					.sorted(Comparator.comparing(Event::getStart))
 					.collect(Collectors.toList());
 		} catch (final EventParseException e) {
 			throw new EventParseRuntimeException(e);
@@ -96,7 +99,6 @@ public class Exporter {
 		} catch (final Exception e) {
 			throw new EventParseRuntimeException(e);
 		}
-
 	}
 
 	private static String export(final Calconfig config, final String template, final List<ColumnGenerator> setup, final LocalDate exportMonth) throws IOException {

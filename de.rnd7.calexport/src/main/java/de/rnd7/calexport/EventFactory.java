@@ -21,6 +21,7 @@ import net.fortuna.ical4j.data.ParserException;
 import net.fortuna.ical4j.model.Calendar;
 import net.fortuna.ical4j.model.Component;
 import net.fortuna.ical4j.model.Property;
+import net.fortuna.ical4j.model.PropertyList;
 import net.fortuna.ical4j.model.TimeZone;
 import net.fortuna.ical4j.model.component.VEvent;
 import net.fortuna.ical4j.model.property.DateProperty;
@@ -81,10 +82,13 @@ public final class EventFactory {
 
 		final VEvent vEvent = new VEvent(component.getProperties());
 
+		final PropertyList properties = component.getProperties(Property.RRULE);
+
 		final Event result = new Event(property.getValue())
 				.setWholeDay(isWholeDay(vEvent))
 				.setStart(parseDate(vEvent.getStartDate()))
-				.setEnd(parseDate(vEvent.getEndDate()));
+				.setEnd(parseDate(vEvent.getEndDate()))
+				.setRuleCount(properties.size());
 
 		if (vEvent.getLocation() != null) {
 			result.setLocation(vEvent.getLocation().getValue());

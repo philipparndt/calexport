@@ -21,6 +21,7 @@ public class Event {
 	private LocalDateTime end;
 	private final List<String> tags;
 	private String location = "";
+	private int ruleCount;
 
 	public Event(final String title) {
 		this.tags = ImageTags.getImageTags().keySet().stream()
@@ -124,6 +125,15 @@ public class Event {
 
 	public String getTitle() {
 		return this.title;
+	}
+
+	public Event setRuleCount(final int ruleCount) {
+		this.ruleCount = ruleCount;
+		return this;
+	}
+
+	public int getRuleCount() {
+		return this.ruleCount;
 	}
 
 	public boolean conflictsInMonth(final Event event, final int year, final Month month) {
