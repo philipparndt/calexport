@@ -84,7 +84,8 @@ public final class EventFactory {
 
 		final PropertyList properties = component.getProperties(Property.RRULE);
 
-		final Event result = new Event(property.getValue())
+		final String title = property.getValue();
+		final Event result = new Event(title)
 				.setWholeDay(isWholeDay(vEvent))
 				.setStart(parseDate(vEvent.getStartDate()))
 				.setEnd(parseDate(vEvent.getEndDate()))

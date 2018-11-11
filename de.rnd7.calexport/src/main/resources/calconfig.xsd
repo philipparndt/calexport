@@ -18,6 +18,7 @@
       <xs:element name="calendar" maxOccurs="unbounded">
         <xs:complexType>
           <xs:sequence>
+		    <xs:element name="id" type="xs:string" minOccurs="0"/>
             <xs:element name="url" type="xs:string"/>
             <xs:element name="name" type="xs:string"/>
             <xs:element name="classes" type="xs:string"/>

@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.rnd7.calexport</groupId>
 	<artifactId>de.rnd7.calexport</artifactId>
-	<version>0.2-SNAPSHOT</version>
+	<version>0.4-SNAPSHOT</version>
 
 	<properties>
 		<!-- Define the version of OPEN HTML TO PDF in the properties section of 

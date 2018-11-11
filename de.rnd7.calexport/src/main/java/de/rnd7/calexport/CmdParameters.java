@@ -14,14 +14,18 @@ import org.slf4j.LoggerFactory;
 public class CmdParameters {
 	private static final String CONFIG = "config";
 	private static final String TEMPLATE = "template";
+	private static final String BACKUP = "backup";
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(CmdParameters.class);
 
 	private final File configFile;
 	private final File templateFile;
+	private final boolean createBackup;
 
-	private CmdParameters(final File config, final File template) {
+	private CmdParameters(final File config, final File template, final boolean createBackup) {
 		this.configFile = config;
 		this.templateFile = template;
+		this.createBackup = createBackup;
 	}
 
 	public File getConfig() {
@@ -30,6 +34,10 @@ public class CmdParameters {
 
 	public File getTemplate() {
 		return this.templateFile;
+	}
+
+	public boolean isCreateBackup() {
+		return this.createBackup;
 	}
 
 	static CmdParameters parse(final String[] args) throws ParseException{
@@ -44,10 +52,12 @@ public class CmdParameters {
 		final String configFile = line.getOptionValue(CONFIG);
 		final String templateFile = line.getOptionValue(TEMPLATE);
 
+		final boolean createBackup = line.hasOption(BACKUP);
+
 		LOGGER.info("Config file: {}", configFile);
 		LOGGER.info("Template file: {}", templateFile);
 
-		return new CmdParameters(new File(configFile), new File(templateFile));
+		return new CmdParameters(new File(configFile), new File(templateFile), createBackup);
 	}
 
 
@@ -64,6 +74,11 @@ public class CmdParameters {
 				.required()
 				.desc("Configuration file")
 				.build());
+
+		options.addOption(Option.builder(BACKUP)
+				.desc("Create backup files")
+				.build());
+
 		return options;
 	}
 }

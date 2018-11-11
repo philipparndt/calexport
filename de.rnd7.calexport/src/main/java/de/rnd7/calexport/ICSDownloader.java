@@ -39,6 +39,7 @@ public class ICSDownloader {
 			final String ics = httpclient.execute(httpget, RESPONSE_HANDLER);
 			return new ByteArrayInputStream(ics.getBytes(CharEncoding.UTF_8));
 		}
-
 	}
+
+
 }
