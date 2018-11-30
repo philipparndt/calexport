@@ -1,9 +1,14 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>de.rnd7.calexport</groupId>
+
+	<parent>
+		<groupId>de.rnd7.calexport</groupId>
+		<artifactId>de.rnd7.calexport.parent</artifactId>
+		<version>0.4-SNAPSHOT</version>
+	</parent>
+	
 	<artifactId>de.rnd7.calexport</artifactId>
-	<version>0.4-SNAPSHOT</version>
 
 	<properties>
 		<!-- Define the version of OPEN HTML TO PDF in the properties section of 

@@ -5,7 +5,6 @@ language: java
 jdk:
   - oraclejdk8
 
-before_install: cd de.rnd7.calexport
 install: mvn install 
 
 cache:
