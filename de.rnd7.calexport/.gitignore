@@ -1,6 +1,5 @@
-/test.html
-/test.pdf
 /sonar.launch
 /*.html
-/EmkCal Production.launch
-/EmkCal Production Backup.launch
+/*.pdf
+/*Production.launch
+/*Production Backup.launch
