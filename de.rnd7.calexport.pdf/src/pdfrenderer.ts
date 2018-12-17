@@ -3,9 +3,8 @@ const pdf = require('pdf-parse');
 import * as fs from 'fs';
 
 export function render(sourceFile: string): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-        savePDF(sourceFile).then(resolve);
-    });
+    return new Promise<void>((resolve, reject) => 
+        savePDF(sourceFile).then(resolve).catch(error => reject(error)));
 }
 
 async function savePDF(sourceFile: string) {
@@ -20,7 +19,7 @@ async function savePDF(sourceFile: string) {
         console.log(`Generating page with zoomLevel: ${zoomLevel}%`);
         data = await printToPDF(webContents);
     
-        let pageCount = await pages(data);
+        let pageCount = await pdf(data).then((document: any) => document.numpages);
 
         if (pageCount == 1) {
             break;
@@ -62,39 +61,11 @@ function options(): PrintToPDFOptions {
 }
 
 function printToPDF(webContents: WebContents): Promise<Buffer> {
-    return new Promise<Buffer>((resolve, reject) => {
-        webContents.printToPDF(options(), (error, data) => {
-            if (error) {
-                reject(error);    
-            }
-            else {
-                resolve(data);
-            }
-        });
-    });        
+    return new Promise<Buffer>((resolve, reject) => 
+        webContents.printToPDF(options(), (error, data) => error ? reject(error) : resolve(data)));        
 }
-
-const pages = (data: Buffer) => pdf(data).then((document: any) => {
-    return document.numpages;
-});
 
 function writeFile(fileName: string, data: Buffer): Promise<void> {
-    return new Promise<void>((resolve, reject) => {
-        fs.writeFile(fileName, data, (error) => {
-            if (error) {
-                reject(error);    
-            }
-            else {
-                resolve();
-            }
-        });
-    });        
-}
-
-function documentWritten(error: Error) {
-    if (error) {
-        throw error
-    }
-
-    console.log('Write PDF successfully.')
+    return new Promise<void>((resolve, reject) => 
+        fs.writeFile(fileName, data, (error) => error ? reject(error) : resolve()));        
 }
