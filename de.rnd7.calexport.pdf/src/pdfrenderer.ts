@@ -8,30 +8,30 @@ export function render(sourceFile: string): Promise<void> {
 }
 
 async function savePDF(sourceFile: string) {
-    let window = await loadDocument(sourceFile);
-    let webContents = window.webContents;
+    const window = await loadDocument(sourceFile);
+    const webContents = window.webContents;
 
     var data: Buffer;
+    var zoomLevel = 100;
 
-    for (var zoomLevel = 100; zoomLevel > 70; zoomLevel-=2.5) {
+    for (; zoomLevel > 70; zoomLevel-=2.5) {
         webContents.insertCSS(`@media print {html, body {zoom: ${zoomLevel}%;}`);
 
-        console.log(`Generating page with zoomLevel: ${zoomLevel}%`);
         data = await printToPDF(webContents);
     
-        let pageCount = await pdf(data).then((document: any) => document.numpages);
+        const pageCount = await pdf(data).then((document: any) => document.numpages);
 
         if (pageCount == 1) {
             break;
         }
         else {
-            console.log(`too many pages: ${pageCount}`);
+            console.log(`too many pages: ${pageCount} with zoomLevel: ${zoomLevel}%`);
         }
     }
 
-    let targetFile = sourceFile.replace(/\.html$/ig, '.pdf');
+    const targetFile = sourceFile.replace(/\.html$/ig, '.pdf');
     await writeFile(targetFile, data);
-    console.log(`pdf file written: ${targetFile}`)
+    console.log(`pdf file written: ${targetFile} (${zoomLevel}% scale)`)
 }
 
 function loadDocument(sourceHtml: string): Promise<BrowserWindow> {
