@@ -30,7 +30,7 @@ async function savePDF(sourceFile: string) {
         }
     }
 
-    let targetFile = `${sourceFile}.pdf`;
+    let targetFile = sourceFile.replace(/\.html$/ig, '.pdf');
     await writeFile(targetFile, data);
     console.log(`pdf file written: ${targetFile}`)
 }
