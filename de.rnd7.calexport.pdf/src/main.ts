@@ -18,8 +18,7 @@ else {
 
 	app.once('ready', () => {
 		const dir = fs.readdirSync(targetFolder);
-	
-		var promises = dir.filter(element => element.endsWith('.html'))
+		const promises = dir.filter(element => element.endsWith('.html'))
 		.map(element => `${targetFolder}/${element}`)
 		.map(file => pdf.render(file));
 		
