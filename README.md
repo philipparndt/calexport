@@ -1,6 +1,8 @@
 # calexport
 
-![Build status](https://travis-ci.org/philipparndt/calexport.svg?branch=master) [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=de.rnd7.calexport:de.rnd7.calexport)](https://sonarcloud.io/dashboard/index/de.rnd7.calexport:de.rnd7.calexport) [![Coverage](https://sonarcloud.io/api/badges/measure?key=de.rnd7.calexport:de.rnd7.calexport&metric=coverage)](https://sonarcloud.io/dashboard/index/de.rnd7.calexport:de.rnd7.calexport)
+![Build status](https://travis-ci.org/philipparndt/calexport.svg?branch=master)
+
+[![Quality Gate](https://sonarcloud.io/api/project_badges/quality_gate?project=de.rnd7.calexport%3Ade.rnd7.calexport&branch=master)](https://sonarcloud.io/dashboard?id=de.rnd7.calexport%3Ade.rnd7.calexport)
 
 This tool will create a month export from multiple web calendars (ical). 
 
