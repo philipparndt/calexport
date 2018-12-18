@@ -8,7 +8,8 @@
     "build": "tsc",
     "watch": "tsc -w",
     "lint": "tslint -c tslint.json -p tsconfig.json",
-    "start": "npm run build && electron ./dist/main.js"
+    "start": "npm run build && electron ./dist/main.js",
+    "build-app": "npm run build && electron-packager ./ --asar --all --overwrite --out ./dist/build"
   },
   "repository": "https://github.com/philipparndt/calexport",
   "author": "Philipp Arndt",
