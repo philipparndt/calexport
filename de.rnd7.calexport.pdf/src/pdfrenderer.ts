@@ -1,10 +1,13 @@
-import { BrowserWindow, PrintToPDFOptions, WebContents, app } from "electron";
-const pdf = require('pdf-parse');
+import * as electron from 'electron';
 import * as fs from 'fs';
+
+const pdf = require('pdf-parse');
 
 export function render(sourceFile: string): Promise<void> {
     return new Promise<void>((resolve, reject) => 
-        savePDF(sourceFile).then(resolve).catch(error => reject(error)));
+        savePDF(sourceFile)
+        .then(resolve)
+        .catch(error => reject(error)));
 }
 
 async function savePDF(sourceFile: string) {
@@ -19,7 +22,9 @@ async function savePDF(sourceFile: string) {
 
         data = await printToPDF(webContents);
     
-        const pageCount = await pdf(data).then((document: any) => document.numpages);
+        const pageCount = await pdf(data)
+        .then((document: any) => document.numpages)
+        .catch((error: any) => console.log(`Error parsing pdf for file '${sourceFile}': ${error}`));
 
         if (pageCount == 1) {
             break;
@@ -34,9 +39,9 @@ async function savePDF(sourceFile: string) {
     console.log(`pdf file written: ${targetFile} (${zoomLevel}% scale)`)
 }
 
-function loadDocument(sourceHtml: string): Promise<BrowserWindow> {
-    return new Promise<BrowserWindow>((resolve, reject) => {
-        let window = new BrowserWindow({
+function loadDocument(sourceHtml: string): Promise<electron.BrowserWindow> {
+    return new Promise<electron.BrowserWindow>((resolve, reject) => {
+        let window = new electron.BrowserWindow({
             show: false,
             webPreferences: {
                 offscreen: true
@@ -50,7 +55,7 @@ function loadDocument(sourceHtml: string): Promise<BrowserWindow> {
     });        
 }
 
-function options(): PrintToPDFOptions {
+function options(): electron.PrintToPDFOptions {
     return {
         marginsType: 0,
         pageSize: 'A4',
@@ -60,7 +65,7 @@ function options(): PrintToPDFOptions {
     }
 }
 
-function printToPDF(webContents: WebContents): Promise<Buffer> {
+function printToPDF(webContents: electron.WebContents): Promise<Buffer> {
     return new Promise<Buffer>((resolve, reject) => 
         webContents.printToPDF(options(), (error, data) => error ? reject(error) : resolve(data)));        
 }

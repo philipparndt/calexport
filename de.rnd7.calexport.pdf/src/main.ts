@@ -25,6 +25,8 @@ else {
 		Promise.all(promises).then(() => {
 			console.log("==== Completed all ====");
 			app.quit();
+		}).catch(error => {
+			console.log(error);
 		});
 	});
 }
