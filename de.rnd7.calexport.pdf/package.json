@@ -2,7 +2,7 @@
   "name": "pdfconverter",
   "productName": "pdfconverter",
   "main": "./dist/main.js",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Convert all html files in a given folder to single page pdf files.",
   "scripts": {
     "build": "tsc",
@@ -15,9 +15,9 @@
   "author": "Philipp Arndt",
   "license": "Apache-2.0",
   "devDependencies": {
-    "electron": "^3.1.12",
-    "tslint": "^5.18.0",
-    "typescript": "^2.9.2"
+    "electron": "^6.0.9",
+    "tslint": "^5.20.0",
+    "typescript": "^3.6.3"
   },
   "dependencies": {
     "pdf-parse": "^1.1.1"
