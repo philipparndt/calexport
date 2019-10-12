@@ -42,11 +42,6 @@ public class BackupCommand {
 	}
 
 	private void createBackup(final String ics, final String name) throws IOException {
-		if (skipDtStamp) {
-			Matcher matcher = dtPattern.matcher(ics);
-			matcher.replaceAll("DTSTAMP:20190101T00000Z");
-		}
-		
 		final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm");
 		final String backupDate = this.addDate ? "_" + LocalDateTime.now().format(formatter) : "";
 		final String sanitizeFilename = cleanFilename(name);
@@ -54,8 +49,19 @@ public class BackupCommand {
 		final String fileName = String.format("backup%s_%s.ical", backupDate, sanitizeFilename);
 		final File file = new File(fileName);
 		LOGGER.info("Creating backup: {}", file);
-		FileUtils.writeStringToFile(file, ics, StandardCharsets.UTF_8);
+		FileUtils.writeStringToFile(file, cleanup(ics), StandardCharsets.UTF_8);
 
+	}
+
+	private String cleanup(final String ics) {
+		String result = ics;
+		
+		if (skipDtStamp) {
+			Matcher matcher = dtPattern.matcher(ics);
+			result = matcher.replaceAll("DTSTAMP:20190101T00000Z");
+		}
+		
+		return result;
 	}
 
 	private static String cleanFilename(final String inputName) {
