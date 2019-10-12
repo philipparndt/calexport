@@ -96,6 +96,14 @@ public class CmdParameters {
 				.desc("Create backup files")
 				.build());
 
+		options.addOption(Option.builder(BACKUP_DATE)
+				.desc("Create backup files with backup date in file names")
+				.build());
+
+		options.addOption(Option.builder(BACKUP_SKIP_DTSTAMP)
+				.desc("Normalize the dtstamp in the calendar to avoid every element to be changed")
+				.build());
+		
 		return options;
 	}
 }
