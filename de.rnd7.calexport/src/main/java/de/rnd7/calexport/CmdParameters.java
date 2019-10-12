@@ -16,6 +16,7 @@ public class CmdParameters {
 	private static final String TEMPLATE = "template";
 	private static final String BACKUP = "backup";
 	private static final String BACKUP_DATE = "backupDate";
+	private static final String BACKUP_SKIP_DTSTAMP = "skipDTSTAMP";
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CmdParameters.class);
 
@@ -23,12 +24,14 @@ public class CmdParameters {
 	private final File templateFile;
 	private final boolean createBackup;
 	private boolean addBackupDate;
+	private boolean skipDtStamp;
 
-	private CmdParameters(final File config, final File template, final boolean createBackup, final boolean addBackupDate) {
+	private CmdParameters(final File config, final File template, final boolean createBackup, final boolean addBackupDate, boolean skipDtStamp) {
 		this.configFile = config;
 		this.templateFile = template;
 		this.createBackup = createBackup;
 		this.addBackupDate = addBackupDate;
+		this.skipDtStamp = skipDtStamp;
 	}
 
 	public File getConfig() {
@@ -47,6 +50,10 @@ public class CmdParameters {
 		return addBackupDate;
 	}
 	
+	public boolean isSkipDtStamp() {
+		return skipDtStamp;
+	}
+	
 	static CmdParameters parse(final String[] args) throws ParseException{
 		// create Options object
 		final Options options = buildOptions();
@@ -61,11 +68,13 @@ public class CmdParameters {
 
 		final boolean createBackup = line.hasOption(BACKUP);
 		final boolean addBackupDate = line.hasOption(BACKUP_DATE);
-
+		final boolean skipDtStamp = line.hasOption(BACKUP_SKIP_DTSTAMP);
+		
+		
 		LOGGER.info("Config file: {}", configFile);
 		LOGGER.info("Template file: {}", templateFile);
 
-		return new CmdParameters(new File(configFile), new File(templateFile), createBackup, addBackupDate);
+		return new CmdParameters(new File(configFile), new File(templateFile), createBackup, addBackupDate, skipDtStamp);
 	}
 
 

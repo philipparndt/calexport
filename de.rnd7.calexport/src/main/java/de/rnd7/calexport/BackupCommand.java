@@ -6,6 +6,8 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
@@ -19,9 +21,13 @@ public class BackupCommand {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(BackupCommand.class);
 	private boolean addDate;
+	private boolean skipDtStamp;
+	
+	private static final Pattern dtPattern = Pattern.compile("DTSTAMP:\\d{8}T{5}Z");
 
-	public BackupCommand(boolean addDate) {
+	public BackupCommand(boolean addDate, boolean skipDtStamp) {
 		this.addDate = addDate;
+		this.skipDtStamp = skipDtStamp;
 	}
 
 	public void execute(final Calendar calendar) throws IOException{
@@ -36,6 +42,11 @@ public class BackupCommand {
 	}
 
 	private void createBackup(final String ics, final String name) throws IOException {
+		if (skipDtStamp) {
+			Matcher matcher = dtPattern.matcher(ics);
+			matcher.replaceAll("DTSTAMP:20190101T00000Z");
+		}
+		
 		final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm");
 		final String backupDate = this.addDate ? "_" + LocalDateTime.now().format(formatter) : "";
 		final String sanitizeFilename = cleanFilename(name);
