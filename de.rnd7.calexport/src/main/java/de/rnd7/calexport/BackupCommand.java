@@ -23,7 +23,7 @@ public class BackupCommand {
 	private boolean addDate;
 	private boolean skipDtStamp;
 	
-	private static final Pattern dtPattern = Pattern.compile("DTSTAMP:\\d{8}T{5}Z");
+	private static final Pattern dtPattern = Pattern.compile("DTSTAMP:\\d{8}T\\d{6}Z");
 
 	public BackupCommand(boolean addDate, boolean skipDtStamp) {
 		this.addDate = addDate;
@@ -58,7 +58,7 @@ public class BackupCommand {
 		
 		if (skipDtStamp) {
 			Matcher matcher = dtPattern.matcher(ics);
-			result = matcher.replaceAll("DTSTAMP:20190101T00000Z");
+			result = matcher.replaceAll("DTSTAMP:20190101T000000Z");
 		}
 		
 		return result;
