@@ -18,6 +18,11 @@ import de.rnd7.calexport.config.Calconfig.Calendar;
 public class BackupCommand {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(BackupCommand.class);
+	private boolean addDate;
+
+	public BackupCommand(boolean addDate) {
+		this.addDate = addDate;
+	}
 
 	public void execute(final Calendar calendar) throws IOException{
 		try (InputStream in = ICSDownloader.download(calendar.getUrl(), HttpClients::createDefault)) {
@@ -30,14 +35,14 @@ public class BackupCommand {
 		return id == null ? calendar.getName() : id;
 	}
 
-	private static void createBackup(final String ics, final String name) throws IOException {
+	private void createBackup(final String ics, final String name) throws IOException {
 		final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH-mm");
-		final String dateTime = LocalDateTime.now().format(formatter);
+		final String backupDate = this.addDate ? "_" + LocalDateTime.now().format(formatter) : "";
 		final String sanitizeFilename = cleanFilename(name);
 
-		final String fileName = String.format("backup_%s_%s.ical", dateTime, sanitizeFilename);
+		final String fileName = String.format("backup%s_%s.ical", backupDate, sanitizeFilename);
 		final File file = new File(fileName);
-		LOGGER.info("Creating backup: {}", file.toString());
+		LOGGER.info("Creating backup: {}", file);
 		FileUtils.writeStringToFile(file, ics, StandardCharsets.UTF_8);
 
 	}

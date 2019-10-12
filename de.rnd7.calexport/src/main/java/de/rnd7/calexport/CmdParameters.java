@@ -15,17 +15,20 @@ public class CmdParameters {
 	private static final String CONFIG = "config";
 	private static final String TEMPLATE = "template";
 	private static final String BACKUP = "backup";
+	private static final String BACKUP_DATE = "backupDate";
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(CmdParameters.class);
 
 	private final File configFile;
 	private final File templateFile;
 	private final boolean createBackup;
+	private boolean addBackupDate;
 
-	private CmdParameters(final File config, final File template, final boolean createBackup) {
+	private CmdParameters(final File config, final File template, final boolean createBackup, final boolean addBackupDate) {
 		this.configFile = config;
 		this.templateFile = template;
 		this.createBackup = createBackup;
+		this.addBackupDate = addBackupDate;
 	}
 
 	public File getConfig() {
@@ -40,6 +43,10 @@ public class CmdParameters {
 		return this.createBackup;
 	}
 
+	public boolean isAddBackupDate() {
+		return addBackupDate;
+	}
+	
 	static CmdParameters parse(final String[] args) throws ParseException{
 		// create Options object
 		final Options options = buildOptions();
@@ -53,11 +60,12 @@ public class CmdParameters {
 		final String templateFile = line.getOptionValue(TEMPLATE);
 
 		final boolean createBackup = line.hasOption(BACKUP);
+		final boolean addBackupDate = line.hasOption(BACKUP_DATE);
 
 		LOGGER.info("Config file: {}", configFile);
 		LOGGER.info("Template file: {}", templateFile);
 
-		return new CmdParameters(new File(configFile), new File(templateFile), createBackup);
+		return new CmdParameters(new File(configFile), new File(templateFile), createBackup, addBackupDate);
 	}
 
 

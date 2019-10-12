@@ -24,7 +24,7 @@ public class Main {
 		final CmdParameters parameters = CmdParameters.parse(args);
 
 		if (parameters.isCreateBackup()) {
-			runBackup(parameters.getConfig(), parameters.getTemplate());
+			runBackup(parameters.getConfig(), parameters.isAddBackupDate());
 		} else {
 			runExport(parameters.getConfig(), parameters.getTemplate());
 		}
@@ -41,12 +41,12 @@ public class Main {
 		}
 	}
 
-	private static void runBackup(final File configFile, final File templateFile) {
+	private static void runBackup(final File configFile, boolean addDate) {
 		try (InputStream in = new FileInputStream(configFile)) {
 			final Calconfig config = Configuration.loadFrom(in);
 
 			for (final Calendar calendar : config.getCalendar()) {
-				new BackupCommand().execute(calendar);
+				new BackupCommand(addDate).execute(calendar);
 			}
 		}
 		catch (final Exception e) {
