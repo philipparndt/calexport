@@ -1,4 +1,4 @@
-version: '2'
+version: '3.3'
 
 services:
   calexport:
@@ -7,4 +7,4 @@ services:
     volumes:
      - ./config:/var/lib/calexport:ro
      - ./target:/target:rw
-    restart: always
+     
