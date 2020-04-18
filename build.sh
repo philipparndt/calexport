@@ -2,6 +2,6 @@
 
 SCRIPTDIR="$(cd "$(dirname "$0")" && pwd)"
 
-echo "Building rnd7/calexport"
+echo "Building pharndt/calexport"
 cd $SCRIPTDIR
-docker build -t rnd7/calexport .
+docker build -t pharndt/calexport .
