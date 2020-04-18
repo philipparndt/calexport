@@ -65,8 +65,7 @@ function options(): electron.PrintToPDFOptions {
 }
 
 function printToPDF(webContents: electron.WebContents): Promise<Buffer> {
-    return new Promise<Buffer>((resolve, reject) =>
-        webContents.printToPDF(options(), (error, data) => error ? reject(error) : resolve(data)));
+    return webContents.printToPDF(options());
 }
 
 function writeFile(fileName: string, data: Buffer): Promise<void> {
