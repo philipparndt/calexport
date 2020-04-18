@@ -1,3 +1,7 @@
+# Status of this branch
+
+Alpine does currently not work. It will not run the executable build with electron-packager
+
 # calexport
 
 ![Build status](https://travis-ci.org/philipparndt/calexport.svg?branch=master)
