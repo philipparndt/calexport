@@ -10,7 +10,7 @@ This will convert all *.html files in a given folder to single page PDF files.`)
 
 const targetFolder = target(process.argv);
 if (!targetFolder) {
-    console.log("please specify a target folder");
+    console.log("please specify a target folder as last command line argument");
     app.quit();
 } else {
     console.log(targetFolder);
@@ -31,13 +31,5 @@ if (!targetFolder) {
 }
 
 function target(args: string[]): string {
-    if (args) {
-        if (args.length === 3 && args[1].includes("main.js")) {
-            // executed using npm start
-            return args[2];
-        } else if (args.length === 2 && !args[1].includes("main.js")) {
-            // executed the exported app
-            return args[1];
-        }
-    }
+    return args[args.length - 1]
 }

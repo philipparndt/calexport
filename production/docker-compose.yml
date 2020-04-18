@@ -1,0 +1,10 @@
+version: '2'
+
+services:
+  calexport:
+    hostname: calexport
+    image: rnd7/calexport
+    volumes:
+     - ./config:/var/lib/calexport:ro
+     - ./target:/target:rw
+    restart: always
