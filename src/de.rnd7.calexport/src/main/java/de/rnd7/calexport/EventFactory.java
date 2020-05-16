@@ -103,10 +103,24 @@ public final class EventFactory {
 	}
 
 	private static LocalDateTime parseDate(final DateProperty date) {
-		date.getValue();
 		final String zoneId = Optional.ofNullable(date.getTimeZone()).map(TimeZone::getID)
 				.orElseGet(ZoneId.systemDefault()::getId);
 
-		return date.getDate().toInstant().atZone(ZoneId.of(zoneId)).toLocalDateTime();
+		return date.getDate().toInstant().atZone(ZoneId.of(fixZoneId(zoneId))).toLocalDateTime();
+	}
+
+	/**
+	 * hack for invalid windows time zone. Cannot just use zone offset of this time zone here
+	 * as no daylight saving is configured for the "W. Europe Standard Time" zone.
+	 * @param zoneId
+	 * @return
+	 */
+	private static String fixZoneId(String zoneId) {
+		if ("W. Europe Standard Time".equalsIgnoreCase(zoneId)) {
+			return "Europe/Berlin";
+		}
+		else {
+			return zoneId;
+		}
 	}
 }
