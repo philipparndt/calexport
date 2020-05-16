@@ -3,7 +3,7 @@ version: '3.3'
 services:
   calexport:
     hostname: calexport
-    image: pharndt/calexport
+    image: pharndt/calexport:1.1
     volumes:
      - ./config:/var/lib/calexport:ro
      - ./target:/target:rw
