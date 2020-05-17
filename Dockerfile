@@ -45,6 +45,11 @@ RUN mvn install assembly:single
 
 FROM java-electron
 
+RUN apt-get install -y locales locales-all
+ENV LC_ALL de_DE.UTF-8
+ENV LANG de_DE.UTF-8
+ENV LANGUAGE de_DE.UTF-8
+
 COPY --from=builder /opt/calexport/de.rnd7.calexport.pdf/dist/build/pdfconverter-linux-x64 /pdfconverter-linux-x64
 COPY --from=builder /opt/calexport/de.rnd7.calexport/target/calexport.jar /calexport.jar
 
