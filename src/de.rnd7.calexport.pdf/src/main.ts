@@ -4,6 +4,7 @@ import * as fs from "fs";
 import * as pdf from "./pdfrenderer";
 
 app.disableHardwareAcceleration();
+app.allowRendererProcessReuse = false
 
 console.log(`Welcome to PDF converter.
 This will convert all *.html files in a given folder to single page PDF files.`);
